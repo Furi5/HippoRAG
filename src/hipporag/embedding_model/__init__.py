@@ -3,7 +3,7 @@ from .base import EmbeddingConfig, BaseEmbeddingModel
 from .GritLM import GritLMEmbeddingModel
 from .NVEmbedV2 import NVEmbedV2EmbeddingModel
 from .OpenAI import OpenAIEmbeddingModel
-
+from .NomicEmbedText import NomicEmbeddingModel
 from ..utils.logging_utils import get_logger
 
 logger = get_logger(__name__)
@@ -18,4 +18,6 @@ def _get_embedding_model_class(embedding_model_name: str = "nvidia/NV-Embed-v2")
         return ContrieverModel
     elif "text-embedding" in embedding_model_name:
         return OpenAIEmbeddingModel
+    elif "nomic-embed-text" in embedding_model_name:
+        return NomicEmbeddingModel
     assert False, f"Unknown embedding model name: {embedding_model_name}"
