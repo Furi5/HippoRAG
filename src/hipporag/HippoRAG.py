@@ -239,6 +239,8 @@ class HippoRAG:
             new_ner_results_dict, new_triple_results_dict = self.openie.batch_openie(new_openie_rows)
             self.merge_openie_results(all_openie_info, new_openie_rows, new_ner_results_dict, new_triple_results_dict)
 
+        
+        
         if self.global_config.save_openie:
             self.save_openie_results(all_openie_info)
 
@@ -1004,9 +1006,21 @@ class HippoRAG:
                 'avg_ent_words': avg_ent_words
             }
             
+            cleaned_openie_dict = self.remove_ellipsis(openie_dict)
+
             with open(self.openie_results_path, 'w') as f:
-                json.dump(openie_dict, f)
+                json.dump(cleaned_openie_dict, f)
             logger.info(f"OpenIE results saved to {self.openie_results_path}")
+
+    def remove_ellipsis(self, obj):
+        if isinstance(obj, dict):
+            return {k: self.remove_ellipsis(v) for k, v in obj.items()}
+        elif isinstance(obj, list):
+            return [self.remove_ellipsis(i) for i in obj if i is not ...]
+        elif obj is ...:
+            return None  # 或者 return '...'
+        else:
+            return obj
 
     def augment_graph(self):
         """
@@ -1598,3 +1612,4 @@ class HippoRAG:
         sorted_doc_scores = doc_scores[sorted_doc_ids.tolist()]
 
         return sorted_doc_ids, sorted_doc_scores
+
