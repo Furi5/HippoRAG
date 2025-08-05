@@ -115,8 +115,8 @@ class HippoRAG:
         #LLM and embedding model specific working directories are created under every specified saving directories
         llm_label = self.global_config.llm_name.replace("/", "_")
         embedding_label = self.global_config.embedding_model_name.replace("/", "_")
-        self.working_dir = os.path.join(self.global_config.save_dir, f"{llm_label}_{embedding_label}")
-
+        # self.working_dir = os.path.join(self.global_config.save_dir, f"{llm_label}_{embedding_label}")
+        self.working_dir = "/home/mindrank/cadd_nas/fuli/HippoRAG/output_RAG/_home_mindrank_fuli_DS-32B_nomic-embed-text:latest"
         if not os.path.exists(self.working_dir):
             logger.info(f"Creating working directory: {self.working_dir}")
             os.makedirs(self.working_dir, exist_ok=True)

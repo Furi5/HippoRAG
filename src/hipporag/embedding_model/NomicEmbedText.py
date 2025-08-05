@@ -40,9 +40,20 @@ class NomicEmbeddingModel(BaseEmbeddingModel):
         self.embedding_config = EmbeddingConfig.from_dict(config_dict=config_dict)
 
 
-    def batch_encode(self, texts: List[str], **kwargs) -> None:
-        embedding = self.embedding_model.get_text_embedding_batch(texts)
-        embedding = np.array(embedding)
+    def batch_encode(self, texts: List[str], **kwargs):
+        for i in range(len(texts)):
+            if texts[i] is None:
+                texts[i] = 'None'
+            elif texts[i] == '':
+                texts[i] = 'None'
+                
+        raw_embeddings = self.embedding_model.get_text_embedding_batch(texts)
+
+        # Step 5: 构造 NumPy 数组
+        embedding = np.array(raw_embeddings)
+
+        # Step 6: 归一化
         if self.embedding_config.norm:
             embedding = (embedding.T / np.linalg.norm(embedding, axis=1)).T
+
         return embedding

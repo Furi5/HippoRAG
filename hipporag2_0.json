@@ -1,0 +1,24 @@
+{
+    "clinical": {
+        "clinical_0": {
+            "question": "Does the compound ADA improve cognitive function in a model of Alzheimer's disease?",
+            "options": "A. Yes; B. No",
+            "hipporag2_options": "A.",
+            "answer": [
+                "The first article (38185066) states \"ADA application significantly improved cognitive impairment of Apoe4 mice\". Therefore, the answer is yes.\nAnswer: A."
+            ],
+            "retrieved_docs": [
+                "PMID38185066",
+                "PMID35782939",
+                "PMID29136783",
+                "PMID29071234",
+                "PMID21606627",
+                "PMID38468315",
+                "PMID11110737",
+                "PMID26638900",
+                "PMID36232612",
+                "PMID31920655"
+            ]
+        }
+    }
+}

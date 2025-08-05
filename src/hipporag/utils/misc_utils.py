@@ -65,7 +65,10 @@ def reformat_openie_results(corpus_openie_results) -> (Dict[str, NerRawOutput], 
             chunk_id=chunk_item['idx'],
             response=None,
             metadata={},
-            unique_entities=list(np.unique(chunk_item['extracted_entities']))
+            unique_entities=list(np.unique([
+                    entity for entity in chunk_item.get('extracted_entities', [])
+                    if isinstance(entity, str) and entity.strip()
+                ]))
         )
         for chunk_item in corpus_openie_results
     }
