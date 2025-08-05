@@ -36,6 +36,18 @@ def _extract_ner_from_response(real_response):
     return eval(match.group())["named_entities"]
 
 
+def clean_ellipsis(obj):
+    if isinstance(obj, list):
+        return [clean_ellipsis(i) for i in obj if i is not ...]
+    elif isinstance(obj, dict):
+        return {k: clean_ellipsis(v) for k, v in obj.items() if v is not ...}
+    elif obj is ...:
+        return None  # 或者 return '...'
+    else:
+        return obj
+
+
+
 class OpenIE:
     def __init__(self, llm_model: CacheOpenAI):
         # Init prompt template manager
@@ -88,10 +100,11 @@ class OpenIE:
             return eval(match.group())["triples"]
 
         # PREPROCESSING
+        named_entities_cleaned = clean_ellipsis(named_entities)
         messages = self.prompt_template_manager.render(
             name='triple_extraction',
             passage=passage,
-            named_entity_json=json.dumps({"named_entities": named_entities})
+            named_entity_json=json.dumps({"named_entities": named_entities_cleaned})
         )
 
         raw_response = ""

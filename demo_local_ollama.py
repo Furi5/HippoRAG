@@ -9,10 +9,10 @@ from src.hipporag import HippoRAG
 def main():
     df = pd.read_csv("pmid_article.csv")
 
-    docs = list(df['article'])[:40]
+    docs = list(df['article'])
 
     save_dir = 'output_RAG'  # Define save directory for HippoRAG objects (each LLM/Embedding model combination will create a new subdirectory)
-    llm_model_name = 'gemma3:27b'  # Any OpenAI model name
+    llm_model_name = '/home/mindrank/fuli/DS-32B'  # Any OpenAI model name
     embedding_model_name = 'nomic-embed-text:latest'  # Embedding model name (NV-Embed, GritLM or Contriever for now)
 
     # Startup a HippoRAG instance
@@ -20,7 +20,7 @@ def main():
                         llm_model_name=llm_model_name,
                         embedding_model_name=embedding_model_name,
                         embedding_base_url="http://localhost:11434",
-                        llm_base_url="http://localhost:11434/v1")
+                        llm_base_url="http://localhost:8102/v1")
 
     # Run indexing
     hipporag.index(docs=docs)

@@ -974,8 +974,19 @@ class HippoRAG:
                 extracted entities.
         """
 
-        sum_phrase_chars = sum([len(e) for chunk in all_openie_info for e in chunk['extracted_entities']])
-        sum_phrase_words = sum([len(e.split()) for chunk in all_openie_info for e in chunk['extracted_entities']])
+        sum_phrase_chars = sum([
+    len(e) for chunk in all_openie_info 
+    for e in chunk.get('extracted_entities', []) 
+    if isinstance(e, str)  # 或者 if not isinstance(e, type(...))
+])
+        # sum_phrase_chars = sum([len(e) for chunk in all_openie_info for e in chunk['extracted_entities']])
+        sum_phrase_words = sum([
+    len(e.split()) 
+    for chunk in all_openie_info 
+    for e in chunk.get('extracted_entities', []) 
+    if isinstance(e, str)
+])
+        # sum_phrase_words = sum([len(e.split()) for chunk in all_openie_info for e in chunk['extracted_entities']])
         num_phrases = sum([len(chunk['extracted_entities']) for chunk in all_openie_info])
 
         if len(all_openie_info) > 0:
